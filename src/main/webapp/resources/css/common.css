@@ -1,0 +1,49 @@
+@CHARSET "UTF-8";
+
+
+*{
+	padding: 0;
+	margin: 0;
+	
+	list-style: none;
+	font-family: nns;
+}
+
+
+body{
+	background-color: #efefef;
+	padding-top: 48px;
+}
+.align-middle{
+	margin: 0 auto;
+	position: relative;
+}
+.width-common{
+	width: 1280px;
+	max-width: 100%;
+}
+.height-full{
+	height: 100%;
+}
+
+/* BUTTONS */
+
+.button{
+	display: inline-block;
+	cursor: pointer;
+	transition: 0.3s;
+}
+.button:hover{
+	opacity: 0.7;
+}
+.button:active{
+	
+}
+
+/* COLOR */
+.c-gray{
+	color: #aaa;
+}
+.c-taskplz{
+	color: #073763;
+}

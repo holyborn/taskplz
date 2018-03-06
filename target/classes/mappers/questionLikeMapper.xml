@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.apache.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.taskplz.mapper.QuestionLike">
+<!-- CRUD -->
+    <insert id="insert" parameterType="com.taskplz.model.QuestionLike">
+		insert into QuestionLike(
+			LikeID,
+			TargetID,
+			ClientID,
+			LikeDate
+		)
+		values(
+			#{likeID},
+			#{targetID},
+			#{clientID},
+			sysdate()
+		)
+	</insert>
+	<select id="select" resultType="com.taskplz.model.QuestionLike">
+		SELECT *
+		FROM QuestionLike
+		where LikeID = #{likeID}
+	</select>
+	<select id="selectByTargetID" resultType="com.taskplz.model.QuestionLike">
+		SELECT *
+		FROM QuestionLike
+		where TargetID = #{targetID}
+	</select>
+	<select id="selectByClientIDNTargetID" resultType="com.taskplz.model.QuestionLike">
+		SELECT *
+		FROM QuestionLike
+		where TargetID = #{targetID} AND ClientID = #{clientID}
+	</select>
+	
+	<update id="update" parameterType="com.taskplz.model.QuestionLike">
+		UPDATE QuestionLike
+		SET LikeDate = sysdate()			
+		WHERE LikeID = #{likeID}
+	</update>
+	<update id="delete" parameterType="com.taskplz.model.QuestionLike">
+		DELETE FROM QuestionLike
+		where TargetID = #{targetID} AND ClientID = #{clientID}
+	</update>
+</mapper>

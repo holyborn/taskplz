@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.apache.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.taskplz.mapper.Client">
+    <insert id="signup" parameterType="com.taskplz.model.Client">
+		insert into Client(
+			ClientID,
+			Email,
+			Password,
+			Nickname,
+			Introduce,
+			MajorDescription,
+			AverageAnswerTime,
+			Cash,
+			Origin,
+			JoinDate,
+			LoginDate
+		)
+		values(
+			#{clientID},
+			#{email},
+			#{password},
+			#{nickname},
+			#{introduce},
+			#{majorDescription},
+			#{averageAnswerTime},
+			0,
+			#{origin},
+			#{joinDate},
+			#{loginDate}
+		)
+	</insert>
+	<select id="select" resultType="com.taskplz.model.ClientVO">
+		SELECT *
+		FROM Client
+		where ClientID = #{clientID}
+	</select>
+	<select id="selectByEmail" resultType="com.taskplz.model.ClientVO">
+		SELECT *
+		FROM Client
+		where Email = #{email}
+	</select>
+	<select id="selectByNickname" resultType="com.taskplz.model.ClientVO">
+		SELECT *
+		FROM Client
+		where Nickname = #{nickname}
+	</select>
+	<select id="selectByTag" resultType="com.taskplz.model.ClientVO">
+		SELECT ClientID, Email, Nickname, Introduce, MajorDescription, AverageAnswerTime, Cash, Origin, JoinDate, LoginDate, ModifyDate, DeleteDate
+		FROM Client
+		INNER JOIN (SELECT * FROM Tag WHERE Tag LIKE '%${Tag}%') Tag on Client.ClientID = Tag.ParentID
+		GROUP BY ClientID
+	</select>
+	
+	<update id="update" parameterType="com.taskplz.model.Client">
+		UPDATE Client set
+			Email = #{email},
+			Password = #{password},
+			Nickname = #{nickname},
+			Introduce = #{introduce},
+			MajorDescription = #{majorDescription},
+			AverageAnswerTime = #{averageAnswerTime},
+			Cash = #{cash},
+			Origin = #{origin},
+			LoginDate = #{loginDate},
+			ModifyDate = sysdate(),
+			DeleteDate = deleteDate()
+		WHERE clientID = #{clientID}
+	</update>
+	
+	<update id="delete" parameterType="com.taskplz.model.Client">
+		UPDATE Client set
+			email = 'deleted',
+			DeleteDate = sysdate()
+		WHERE clientID = #{clientID}
+	</update>
+</mapper>

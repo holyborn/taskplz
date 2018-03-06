@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.apache.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.taskplz.mapper.PhoneVerification">
+    <insert id="insert" parameterType="com.taskplz.model.PhoneVerification">
+		insert into PhoneVerification(
+			VerificationID,
+			ClientID,
+			VerDate,
+			Name,
+			Phone,
+			Birthday,
+			Gender
+		)
+		values(
+			#{verificationID},
+			#{clientID},
+			#{verDate},
+			#{name},
+			#{phone},
+			#{birthday},
+			#{gender}
+			
+		)
+	</insert>
+	<select id="select" resultType="com.taskplz.model.PhoneVerificationVO">
+		SELECT *
+		FROM PhoneVerification
+		where VerificationID = #{verificationID}
+	</select>
+	<select id="selectByClientID" resultType="com.taskplz.model.PhoneVerificationVO">
+		SELECT *
+		FROM PhoneVerification
+		where ClientID = #{clientID}
+	</select>
+	<update id="update" parameterType="com.taskplz.model.PhoneVerification">
+		UPDATE PhoneVerification set
+			VerDate = #{verDate},
+			Name = #{name},
+			Phone = #{phone},
+			Birthday = #{birthday},
+			Gender = #{gender}
+		WHERE clientID = #{clientID} AND VerificationID = #{verificationID}
+	</update>
+</mapper>

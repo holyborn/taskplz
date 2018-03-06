@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.apache.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.taskplz.mapper.EmailVerification">
+    <insert id="insert" parameterType="com.taskplz.model.EmailVerification">
+		insert into EmailVerification(
+			VerificationID,
+			ClientID,
+			VerDate,
+			HashNumber,
+			Verified
+		)
+		values(
+			#{verificationID},
+			#{clientID},
+			#{verDate},
+			#{hashNumber},
+			#{verified}
+		)
+	</insert>
+	<select id="select" resultType="com.taskplz.model.EmailVerificationVO">
+		SELECT *
+		FROM EmailVerification
+		where VerificationID = #{verificationID}
+	</select>
+	<select id="selectByClientID" resultType="com.taskplz.model.EmailVerificationVO">
+		SELECT *
+		FROM EmailVerification
+		where ClientID = #{clientID}
+	</select>
+	<update id="update" parameterType="com.taskplz.model.EmailVerification">
+		UPDATE EmailVerification set
+			VerDate = #{verDate},
+			HashNumber = #{hashNumber},
+			Verified = #{verified}
+		WHERE clientID = #{clientID} AND VerificationID = #{verificationID}
+	</update>
+</mapper>

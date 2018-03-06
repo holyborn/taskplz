@@ -1,0 +1,73 @@
+package com.taskplz.model;
+
+import java.util.UUID;
+
+import org.apache.ibatis.session.SqlSession;
+
+public class Tag extends TagVO implements IModelCRUD {
+
+	private SqlSession sqlSession;
+
+	protected static final String mapperNS = "com.taskplz.mapper.Tag.";
+
+	@SuppressWarnings("unused")
+	private Tag() {
+	};
+
+	protected Tag(SqlSession sqlSession) {
+		this.sqlSession = sqlSession;
+	};
+
+	protected Tag(SqlSession sqlSession, TagVO vo) {
+		this.sqlSession = sqlSession;
+		this.copy(vo);
+	};
+
+	protected String getUUID() {
+		return this.getTagID();
+	}
+
+	protected void setUUID(String uuid) {
+		this.setTagID(uuid);
+	}
+
+	public void load(String TagID) throws ModelException {
+		try {
+			TagVO vo = sqlSession.selectOne(mapperNS + "select", TagID);
+			if (vo == null)
+				throw new ModelException(null, "310000", "UUID로 해당 Model을 읽어드릴 수 없습니다");
+			this.copy(vo);
+		} catch (Throwable e) {
+			throw new ModelException(e, "300000", "모르겠습니다.");
+		}
+	}
+
+	public void save() throws ModelException {
+		// ClientID의 Null유무로 신규 생성 여부 결정
+		if (this.getTagID() == null) {
+			// Insert
+			try {
+				this.setTagID(UUID.randomUUID().toString());
+				sqlSession.insert(mapperNS + "insert", this);
+			} catch (Throwable e) {
+				this.setTagID(null);
+				throw new ModelException(e, "300000", "모르겠습니다.");
+			}
+		} else {
+			// Update
+			try {
+				sqlSession.update(mapperNS + "update", this);
+			} catch (Throwable e) {
+				throw new ModelException(e, "300000", "모르겠습니다.");
+			}
+		}
+	}
+
+	public void delete() throws ModelException {
+		try {
+			sqlSession.delete(mapperNS + "delete", this.getTagID());
+		} catch (Throwable e) {
+			throw new ModelException(e, "300000", "모르겠습니다.");
+		}
+	}
+}
